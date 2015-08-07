@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+    <title>蘇迪勒颱風開放資料查詢</title>
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <!-- fork g0v yutin -->
+  </head>
+  <body>
+  <div class="container" ng-app="app" ng-controller="MainController as MainCtrl">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">蘇迪勒颱風開放資料查詢</a>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="form-group">
+          <select class="form-control" ng-show="type=='list'" ng-model="MainCtrl.listSearch" ng-options="area for area in areas">
+          	<option value="">-- 請選擇區域 --</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="nav nav-pills nav-justified">
+          <li role="presentation" ng-class="{active: type=='list'}"><a href="#" ng-click="type='list'">災情列表</a></li>
+          <li role="presentation" ng-class="{active: type=='map'}"><a href="#" ng-click="type='map'">地圖呈現</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" ng-show="type=='list'">
+		<div class="col-lg-12">
+			<table st-table="MainCtrl.Data.data" class="table table-striped">
+	          <thead>
+	            <tr>
+	              <th style="text-align:center">發生時間</th>
+	              <th style="text-align:center">區域</th>
+	              <th style="text-align:center">發生地點</th>
+	              <th style="text-align:center">災情概況</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            <tr ng-repeat="disaster in disasterList | filter: MainCtrl.listSearch">
+	              <td style="width:15%">
+	                <p>{{ disaster["CaseTime"][0] }}</p>
+	              </td>
+	              <td style="width:5%">
+	                <p class="label label-success">{{ disaster["CaseLocationDistrict"][0] }}</p>
+	              </td>
+	              <td style="width:20%">
+	                <a target="_blank" href="https://www.google.com.tw/maps/place/台北市{{ disaster['CaseLocationDescription'][0] }}"><p>台北市{{ disaster['CaseLocationDescription'][0] }}</p></a>
+	              </td>
+	              <td style="width:60%">
+	                <p>{{ disaster["CaseDescription"][0] }}</p>
+	              </td>
+	            </tr>
+	          </tbody>
+           </table>
+		</div>
+    </div>
+    <div class="row" ng-show="type=='map'">
+	    <div class="col-lg-12">
+	      
+	    </div>
+  	</div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+
+	<!-- app -->
+  	<script src="js/app.js"></script>
+  	<!-- controllers -->
+  	<script src="js/Controllers/MainController.js"></script>
+  	<!-- services -->
+	<script src="js/services/disaster.js"></script>
+  </body>
+</html>
