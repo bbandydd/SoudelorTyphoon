@@ -37,6 +37,9 @@
           <select class="form-control" ng-show="type=='list' || type=='map'" ng-model="MainCtrl.typeSearch" ng-options="disasterType for disasterType in disasterTypes">
           	<option value="">-- 請選擇災害類型 --</option>
           </select>
+          <select class="form-control" ng-show="type=='holiday'" ng-model="MainCtrl.areaSearch" ng-options="TaiwanArea for TaiwanArea in TaiwanAreas">
+            <option value="">-- 請選擇縣市名稱 --</option>
+          </select>
         </div>
       </div>
     </nav>
@@ -101,7 +104,7 @@
             </tr>
           </thead>
           <tbody>
-              <tr ng-repeat="holiday in holidayList">
+              <tr ng-repeat="holiday in holidayList | filter: MainCtrl.areaSearch">
                 <td style="width:30%; text-align: center">
                   <p class="label label-success">{{ holiday.name }}</p>
                 </td>

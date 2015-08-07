@@ -27,9 +27,9 @@ app.controller('MainController', ['$scope', 'disaster', 'holiday', function($sco
 
 			$scope.holidayList = [];
 
-			var TaiwanAreas = ["北部地區", "中部地區", "南部地區", "東部地區", "外島地區"];
+			$scope.TaiwanAreas = ["北部地區", "中部地區", "南部地區", "東部地區", "外島地區"];
 
-			angular.forEach(TaiwanAreas, function(value, key){
+			angular.forEach($scope.TaiwanAreas, function(value, key){
 				angular.forEach(data[value], function(value2, key2){
 					$scope.holidayList.push({area: value, name: value2.Name, content: value2.content, display: value2.content.indexOf('停止') == -1 ? 'label-info' : 'label-danger'});
 				})	
