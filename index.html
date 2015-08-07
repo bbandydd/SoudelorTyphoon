@@ -27,6 +27,9 @@
           <select class="form-control" ng-show="type=='list'" ng-model="MainCtrl.listSearch" ng-options="area for area in areas">
           	<option value="">-- 請選擇區域 --</option>
           </select>
+          <select class="form-control" ng-model="MainCtrl.typeSearch" ng-options="disasterType for disasterType in disasterTypes">
+          	<option value="">-- 請選擇災害類型 --</option>
+          </select>
         </div>
       </div>
     </nav>
@@ -44,24 +47,28 @@
 			<table st-table="MainCtrl.Data.data" class="table table-striped">
 	          <thead>
 	            <tr>
-	              <th style="text-align:center">發生時間</th>
-	              <th style="text-align:center">區域</th>
-	              <th style="text-align:center">發生地點</th>
+	              <th>發生時間</th>
+	              <th>區域</th>
+	              <th>災害類型</th>
+	              <th>發生地點</th>
 	              <th style="text-align:center">災情概況</th>
 	            </tr>
 	          </thead>
 	          <tbody>
-	            <tr ng-repeat="disaster in disasterList | filter: MainCtrl.listSearch">
+	            <tr ng-repeat="disaster in disasterList | filter: MainCtrl.listSearch | filter: MainCtrl.typeSearch">
 	              <td style="width:15%">
 	                <p>{{ disaster["CaseTime"][0] }}</p>
 	              </td>
 	              <td style="width:5%">
-	                <p class="label label-success">{{ disaster["CaseLocationDistrict"][0] }}</p>
+	                <p class="label label-info">{{ disaster["CaseLocationDistrict"][0] }}</p>
 	              </td>
-	              <td style="width:20%">
+	              <td style="width:10%">
+	                <p class="label label-warning">{{ disaster["PName"][0] }}</p>
+	              </td>
+	              <td style="width:15%">
 	                <a target="_blank" href="https://www.google.com.tw/maps/place/台北市{{ disaster['CaseLocationDescription'][0] }}"><p>台北市{{ disaster['CaseLocationDescription'][0] }}</p></a>
 	              </td>
-	              <td style="width:60%">
+	              <td style="width:55%">
 	                <p>{{ disaster["CaseDescription"][0] }}</p>
 	              </td>
 	            </tr>
