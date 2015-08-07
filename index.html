@@ -34,7 +34,7 @@
           <select class="form-control" ng-show="type=='list'" ng-model="MainCtrl.listSearch" ng-options="area for area in areas">
           	<option value="">-- 請選擇區域 --</option>
           </select>
-          <select class="form-control" ng-model="MainCtrl.typeSearch" ng-options="disasterType for disasterType in disasterTypes">
+          <select class="form-control" ng-show="type=='list' || type=='map'" ng-model="MainCtrl.typeSearch" ng-options="disasterType for disasterType in disasterTypes">
           	<option value="">-- 請選擇災害類型 --</option>
           </select>
         </div>
@@ -45,6 +45,8 @@
         <ul class="nav nav-pills nav-justified">
           <li role="presentation" ng-class="{active: type=='list'}"><a href="#" ng-click="type='list'">災情列表</a></li>
           <li role="presentation" ng-class="{active: type=='map'}"><a href="#" ng-click="type='map'">地圖呈現</a></li>
+          <li role="presentation" ng-class="{active: type=='overall'}"><a href="#" ng-click="type='overall'">災害總覽</a></li>
+          <li role="presentation" ng-class="{active: type=='holiday'}"><a href="#" ng-click="type='holiday'">停班停課一覽</a></li>
         </ul>
       </div>
     </div>
@@ -67,7 +69,7 @@
 	                <p>{{ disaster["CaseTime"][0] }}</p>
 	              </td>
 	              <td style="width:5%">
-	                <p class="label label-info">{{ disaster["CaseLocationDistrict"][0] }}</p>
+	                <p class="label label-success">{{ disaster["CaseLocationDistrict"][0] }}</p>
 	              </td>
 	              <td style="width:10%">
 	                <p class="label label-warning">{{ disaster["PName"][0] }}</p>
@@ -88,6 +90,29 @@
 	      
 	    </div>
   	</div>
+    <div class="row" ng-show="type=='holiday'">
+      <div class="col-lg-12" style="text-align:center">
+        <p class="label label-warning">更新時間：{{ holidayUpdateTime }}</p>
+        <table st-table="MainCtrl.Data.data" class="table table-striped">
+          <thead>
+            <tr>
+              <th style="text-align:center">縣市名稱</th>
+              <th style="text-align:center">停班停課狀況</th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="holiday in holidayList">
+                <td style="width:30%; text-align: center">
+                  <p class="label label-success">{{ holiday.name }}</p>
+                </td>
+                <td style="width:70%">
+                  <p class="label {{ holiday.display }}">{{ holiday.content }}</p>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -99,6 +124,7 @@
   	<!-- controllers -->
   	<script src="js/Controllers/MainController.js"></script>
   	<!-- services -->
-	<script src="js/services/disaster.js"></script>
+	 <script src="js/services/disaster.js"></script>
+    <script src="js/services/holiday.js"></script>
   </body>
 </html>
