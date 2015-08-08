@@ -61,8 +61,11 @@
           <select class="form-control" ng-show="type=='list'" ng-model="MainCtrl.listSearch" ng-options="area.name for area in areas">
           	<option value="">-- 請選擇區域 --</option>
           </select>
-          <select class="form-control" ng-show="type=='list' || type=='map'" ng-model="MainCtrl.typeSearch" ng-options="disasterType for disasterType in disasterTypes">
+          <select class="form-control" ng-show="type=='list'" ng-model="MainCtrl.typeSearch" ng-options="disasterType for disasterType in disasterTypes">
           	<option value="">-- 請選擇災害類型 --</option>
+          </select>
+          <select class="form-control" ng-show="type=='map'" ng-model="typeSearch" ng-change="mapchange();" ng-options="disasterType for disasterType in disasterTypes">
+            <option value="">-- 請選擇災害類型 --</option>
           </select>
           <select class="form-control" ng-show="type=='holiday'" ng-model="MainCtrl.areaSearch" ng-options="TaiwanArea for TaiwanArea in TaiwanAreas">
             <option value="">-- 請選擇縣市名稱 --</option>
@@ -74,7 +77,7 @@
       <div class="col-lg-12">
         <ul class="nav nav-pills nav-justified">
           <li role="presentation" ng-class="{active: type=='list'}"><a href="#" ng-click="type='list'">災情列表</a></li>
-          <li role="presentation" ng-class="{active: type=='map'}"><a href="#" ng-click="mapchange()">地圖呈現</a></li>
+          <li role="presentation" ng-class="{active: type=='map'}"><a href="#" ng-click="mapchange();">地圖呈現</a></li>
           <li role="presentation" ng-class="{active: type=='overall'}"><a href="#" ng-click="type='overall'">各區災情總覽</a></li>
           <li role="presentation" ng-class="{active: type=='holiday'}"><a href="#" ng-click="type='holiday'">停班停課一覽</a></li>
         </ul>
@@ -116,8 +119,9 @@
 		</div>
     </div>
     <div class="row" ng-show="type=='map'">
-	    <div class="col-lg-12" ng-controller="mapController">
+	    <div class="col-lg-12">
 	      <div id="map"></div>
+        }
 	    </div>
   	</div>
     <div class="row" ng-show="type=='overall'">
@@ -166,7 +170,6 @@
   	<script src="js/app.js"></script>
   	<!-- controllers -->
   	<script src="js/Controllers/MainController.js"></script>
-    <script src="js/Controllers/mapController.js"></script>
   	<!-- services -->
 	 <script src="js/services/disaster.js"></script>
     <script src="js/services/holiday.js"></script>

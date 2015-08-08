@@ -1,11 +1,7 @@
 app.controller('MainController', ['$scope', 'disaster', 'holiday', function($scope, disaster, holiday){
 	$scope.type = 'list';
 
-	$scope.mapchange = function(){
-	    $scope.type='map';
-	    
-	    setTimeout(function(){ google.maps.event.trigger(map, 'resize'); }, 1000);
-	  };
+	$scope.typeSearch = '';
 
 	disaster
 		.success(function(data){
@@ -117,5 +113,82 @@ app.controller('MainController', ['$scope', 'disaster', 'holiday', function($sco
 			console.log('holiday-error:' + err)
 		})
 
+	//地圖呈現
 	
+	$scope.mapchange = function(){
+	    $scope.type='map';
+	    $('.stations').remove(); //移除原本畫圖遮罩
+	    $scope.generateMap();
+	    
+	    setTimeout(function(){ google.maps.event.trigger(map, 'resize'); }, 1000);
+	  };
+
+	var map = new google.maps.Map(d3.select('#map').node(),{
+        zoom: 17, 
+        center: new google.maps.LatLng(25.042355, 121.532904) 
+    });
+
+	$scope.generateMap = function(){
+		d3.json("https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json", function(data){
+	        var overlay = new google.maps.OverlayView();
+
+	        overlay.onAdd = function(){
+	            var layer = d3.select(this.getPanes().overlayMouseTarget).append('div')
+	                .attr('class', 'stations');
+
+	            overlay.draw = function(){
+	                var projection = this.getProjection(),
+	                padding = 16;
+
+	                var originData = data.DataSet["diffgr:diffgram"][0].NewDataSet[0].CASE_SUMMARY;
+
+	                var searchData = [];
+
+	                angular.forEach(originData, function(value, key){
+	                	if ($scope.typeSearch == '')
+	                		searchData.push(value);
+	                	else{
+	                		if ($scope.typeSearch == value.PName[0])
+	                			searchData.push(value);
+	                	}
+
+	                });
+
+	                var marker = layer.selectAll('svg')
+	                .data(d3.entries(searchData))
+	                    .each(transform)
+	                    .enter().append('svg:svg')
+	                    .each(transform)
+	                    .attr('class', 'marker');
+
+	                marker.append('svg:circle')
+	                    .attr('r', 6)
+	                    .attr('cx', padding)
+	                    .attr('cy', padding);
+
+	                marker.append('svg:text')
+	                    .attr('x', padding + 7)
+	                    .attr('y', padding)
+	                    .attr('dy', '.31em')
+	                    .text(function(d){
+	                        return d.value.CaseDescription[0];
+	                });
+	                function transform(d) {
+	                   
+	                  d = new google.maps.LatLng(d.value.Wgs84Y [0], d.value.Wgs84X[0]);
+	                  d = projection.fromLatLngToDivPixel(d);
+	                
+	                  return d3.select(this)
+	                      .style("left", (d.x - padding) + "px")
+	                      .style("top", (d.y - padding) + "px");
+	                }
+	            };
+	            
+		    };
+
+		    overlay.setMap(map);
+		});
+	};
+    
+
 }]);
