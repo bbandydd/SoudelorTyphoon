@@ -74,7 +74,7 @@
       <div class="col-lg-12">
         <ul class="nav nav-pills nav-justified">
           <li role="presentation" ng-class="{active: type=='list'}"><a href="#" ng-click="type='list'">災情列表</a></li>
-          <li role="presentation" ng-class="{active: type=='map'}"><a href="#" ng-click="type='map'">地圖呈現</a></li>
+          <li role="presentation" ng-class="{active: type=='map'}"><a href="#" ng-click="mapchange()">地圖呈現</a></li>
           <li role="presentation" ng-class="{active: type=='overall'}"><a href="#" ng-click="type='overall'">各區災情總覽</a></li>
           <li role="presentation" ng-class="{active: type=='holiday'}"><a href="#" ng-click="type='holiday'">停班停課一覽</a></li>
         </ul>
@@ -94,7 +94,7 @@
 	            </tr>
 	          </thead>
 	          <tbody>
-	            <tr ng-repeat="disaster in disasterList | filter: MainCtrl.listSearch.name | filter: MainCtrl.typeSearch">
+	            <tr ng-repeat="disaster in disasterList | filter: MainCtrl.listSearch.name | filter: MainCtrl.typeSearch | limitTo:100">
 	              <td style="width:15%">
 	                <p>{{ disaster["CaseTime"][0] }}</p>
 	              </td>

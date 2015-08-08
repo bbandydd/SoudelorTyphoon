@@ -4,6 +4,8 @@ app.controller('mapController', ['$scope', function mapController($scope){
         center: new google.maps.LatLng(25.042355, 121.532904) 
     });
 
+    setTimeout(function(){ google.maps.event.trigger(map, 'resize'); }, 1000);
+
     d3.json("https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json", function(data){
         var overlay = new google.maps.OverlayView();
 

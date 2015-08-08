@@ -1,6 +1,12 @@
 app.controller('MainController', ['$scope', 'disaster', 'holiday', function($scope, disaster, holiday){
 	$scope.type = 'list';
 
+	$scope.mapchange = function(){
+	    $scope.type='map';
+	    
+	    setTimeout(function(){ google.maps.event.trigger(map, 'resize'); }, 1000);
+	  };
+
 	disaster
 		.success(function(data){
 			$scope.disasterList = data.DataSet["diffgr:diffgram"][0].NewDataSet[0].CASE_SUMMARY;
