@@ -1,5 +1,5 @@
 app.factory('disaster', ['$http', function disaster($http){
-	return $http.get('https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json')
+	return $http.get('http://bbandydd.github.io/SoudelorTyphoon/json_bak/GetDisasterSummary.json')
 		.success(function(data){
 			return data;
 		})

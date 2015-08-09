@@ -105,7 +105,7 @@ app.controller('MainController', ['$scope', 'disaster', 'holiday', function($sco
 
 			angular.forEach($scope.TaiwanAreas, function(value, key){
 				angular.forEach(data[value], function(value2, key2){
-					$scope.holidayList.push({area: value, name: value2.Name, content: value2.content, display: value2.content.indexOf('停止') == -1 ? 'label-info' : 'label-danger'});
+					$scope.holidayList.push({area: value, name: value2.Name, content: value2.content, display: value2.content.indexOf('已達停止') == -1 ? 'label-info' : 'label-danger'});
 				})	
 			});
 		})
@@ -129,7 +129,7 @@ app.controller('MainController', ['$scope', 'disaster', 'holiday', function($sco
     });
 
 	$scope.generateMap = function(){
-		d3.json("https://tcgbusfs.blob.core.windows.net/blobfs/GetDisasterSummary.json", function(data){
+		d3.json("http://bbandydd.github.io/SoudelorTyphoon/json_bak/GetDisasterSummary.json", function(data){
 	        var overlay = new google.maps.OverlayView();
 
 	        overlay.onAdd = function(){
